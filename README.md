@@ -1,72 +1,206 @@
-# Getting Started with Create React App
+# Student Attendance Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive web application for managing student attendance in educational institutions, built with Spring Boot backend and React frontend.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 🔐 Authentication
+- Secure JWT-based authentication
+- User registration and login
+- Session management
 
-### `npm start`
+### 👨‍🎓 Student Management
+- Add, edit, delete, and view student records
+- Student information including name, email, class, and phone
+- Filter students by class
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📚 Course Management
+- Create and manage courses/subjects
+- Assign lecturers to courses
+- Enroll/unenroll students in courses
+- View course details and enrolled students
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📝 Attendance Recording
+- Mark attendance for course sessions (Present/Absent/Late)
+- Date-based attendance tracking
+- Bulk attendance marking for entire classes
+- Update existing attendance records
 
-### `npm test`
+### 📊 Reports & Analytics
+- Generate student-specific attendance reports
+- Course-wise attendance summaries
+- Attendance percentage calculations
+- Detailed attendance history
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🎨 User Interface
+- Modern, responsive Material-UI design
+- Intuitive navigation and user experience
+- Real-time data updates
+- Error handling and validation
 
-### `npm run build`
+## Technology Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
+- **Spring Boot 3.2.0** - Java framework
+- **Spring Data JPA** - Database access
+- **Spring Security** - Authentication and authorization
+- **MySQL** - Database
+- **JWT** - Token-based authentication
+- **Maven** - Build tool
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Frontend
+- **React 18** - JavaScript library
+- **Material-UI** - UI component library
+- **Axios** - HTTP client
+- **React Router** - Client-side routing
+- **npm** - Package manager
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Database Schema
 
-### `npm run eject`
+```
+users (lecturers/admins)
+├── id, name, email, password, role
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+students
+├── id, name, email, student_class, phone
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+courses
+├── id, course_name, lecturer_id
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+enrollments (junction table)
+├── course_id, student_id
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+attendance_records
+├── id, student_id, course_id, date, status, lecturer_id
+```
 
-## Learn More
+## API Endpoints
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Students
+- `GET /api/students` - Get all students
+- `GET /api/students/{id}` - Get student by ID
+- `POST /api/students` - Create new student
+- `PUT /api/students/{id}` - Update student
+- `DELETE /api/students/{id}` - Delete student
+- `GET /api/students/class/{class}` - Get students by class
 
-### Code Splitting
+### Courses
+- `GET /api/courses` - Get all courses
+- `GET /api/courses/{id}` - Get course by ID
+- `POST /api/courses` - Create new course
+- `PUT /api/courses/{id}` - Update course
+- `DELETE /api/courses/{id}` - Delete course
+- `GET /api/courses/lecturer/{lecturerId}` - Get courses by lecturer
+- `POST /api/courses/{courseId}/enroll/{studentId}` - Enroll student
+- `DELETE /api/courses/{courseId}/unenroll/{studentId}` - Unenroll student
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Attendance
+- `GET /api/attendance/course/{courseId}?date={date}` - Get attendance by course and date
+- `POST /api/attendance/course/{courseId}` - Mark attendance
+- `GET /api/attendance/student/{studentId}` - Get student's attendance
+- `GET /api/attendance/course/{courseId}/all` - Get all attendance for course
+- `PUT /api/attendance/{id}` - Update attendance record
 
-### Analyzing the Bundle Size
+### Reports
+- `GET /api/reports/student/{studentId}` - Generate student report
+- `GET /api/reports/course/{courseId}` - Generate course report
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Installation & Setup
 
-### Making a Progressive Web App
+### Prerequisites
+- Java 17 or higher
+- MySQL 8.0 or higher
+- Node.js 16 or higher
+- npm or yarn
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Backend Setup
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
 
-### Advanced Configuration
+2. Configure MySQL database in `src/main/resources/application.properties`:
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/student_management?createDatabaseIfNotExist=true
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. Run the Spring Boot application:
+   ```bash
+   mvn spring-boot:run
+   ```
 
-### Deployment
+### Frontend Setup
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm run build` fails to minify
+3. Start the React development server:
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-# std_man_system
+## Usage
+
+1. **Login/Register**: Create an account or login with existing credentials
+2. **Dashboard**: View system overview and statistics
+3. **Students**: Manage student records (add, edit, delete, view)
+4. **Courses**: Create courses and manage student enrollments
+5. **Attendance**: Mark attendance for course sessions
+6. **Reports**: Generate and view attendance reports
+
+## Development
+
+### Project Structure
+```
+student_management/
+├── backend/
+│   ├── src/main/java/com/studentmanagement/
+│   │   ├── controller/     # REST controllers
+│   │   ├── model/         # JPA entities
+│   │   ├── repository/    # Data repositories
+│   │   ├── service/       # Business logic
+│   │   ├── security/      # JWT and security config
+│   │   └── config/        # Application configuration
+│   ├── src/main/resources/
+│   │   └── application.properties
+│   └── pom.xml
+├── frontend/
+│   ├── src/
+│   │   ├── components/    # Reusable UI components
+│   │   ├── pages/         # Page components
+│   │   ├── services/      # API services
+│   │   └── utils/         # Utility functions
+│   ├── public/
+│   └── package.json
+└── README.md
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support and questions, please open an issue in the GitHub repository.
