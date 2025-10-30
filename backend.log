@@ -1,0 +1,78 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2025-10-29T18:40:16.524+02:00  INFO 1412 --- [           main] c.s.StudentManagementApplication         : Starting StudentManagementApplication v0.0.1-SNAPSHOT using Java 21.0.1 with PID 1412 (C:\Users\USER\Desktop\student_management\backend\target\student-management-backend-0.0.1-SNAPSHOT.jar started by USER in C:\Users\USER\Desktop\student_management)
+2025-10-29T18:40:16.546+02:00 DEBUG 1412 --- [           main] c.s.StudentManagementApplication         : Running with Spring Boot v3.2.0, Spring v6.1.1
+2025-10-29T18:40:16.551+02:00  INFO 1412 --- [           main] c.s.StudentManagementApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-10-29T18:40:18.203+02:00  INFO 1412 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-29T18:40:18.300+02:00  INFO 1412 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 5 JPA repository interfaces.
+2025-10-29T18:40:19.411+02:00  INFO 1412 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-10-29T18:40:19.427+02:00  INFO 1412 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-29T18:40:19.427+02:00  INFO 1412 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-10-29T18:40:19.475+02:00  INFO 1412 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-29T18:40:19.476+02:00  INFO 1412 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2766 ms
+2025-10-29T18:40:19.790+02:00  INFO 1412 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-29T18:40:19.873+02:00  INFO 1412 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-10-29T18:40:19.942+02:00  INFO 1412 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-10-29T18:40:20.525+02:00  INFO 1412 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-29T18:40:20.569+02:00  INFO 1412 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-29T18:40:21.270+02:00  INFO 1412 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6dcf7b6a
+2025-10-29T18:40:21.272+02:00  INFO 1412 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-29T18:40:21.372+02:00  WARN 1412 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-29T18:40:21.374+02:00  WARN 1412 --- [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-10-29T18:40:22.646+02:00  INFO 1412 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: alter table attendance_records drop foreign key FKajuyma3tj3agc0xu8668vgwua
+Hibernate: alter table attendance_records drop foreign key FKmcxk2sl9xk1qat8p0lsh1ole2
+Hibernate: alter table courses drop foreign key FKit07wvai906qvcttvvg8pi1rr
+Hibernate: alter table enrollments drop foreign key FKho8mcicp4196ebpltdn9wl6co
+Hibernate: alter table enrollments drop foreign key FK8kf1u1857xgo56xbfmnif2c51
+Hibernate: drop table if exists attendance_records
+Hibernate: drop table if exists courses
+Hibernate: drop table if exists enrollments
+Hibernate: drop table if exists students
+Hibernate: drop table if exists users
+Hibernate: create table attendance_records (date date, enrollment_id bigint not null, id bigint not null auto_increment, lecturer_id bigint, status varchar(255), primary key (id)) engine=InnoDB
+Hibernate: create table courses (id bigint not null auto_increment, lecturer_id bigint not null, course_name varchar(255), primary key (id)) engine=InnoDB
+Hibernate: create table enrollments (course_id bigint not null, enrolled_at datetime(6), id bigint not null auto_increment, student_id bigint not null, status varchar(255), primary key (id)) engine=InnoDB
+Hibernate: create table students (id bigint not null auto_increment, email varchar(255), name varchar(255), phone varchar(255), student_class varchar(255), primary key (id)) engine=InnoDB
+Hibernate: create table users (id bigint not null auto_increment, email varchar(255), name varchar(255), password varchar(255), role varchar(255), primary key (id)) engine=InnoDB
+Hibernate: alter table attendance_records add constraint FKajuyma3tj3agc0xu8668vgwua foreign key (enrollment_id) references enrollments (id)
+Hibernate: alter table attendance_records add constraint FKmcxk2sl9xk1qat8p0lsh1ole2 foreign key (lecturer_id) references users (id)
+Hibernate: alter table courses add constraint FKit07wvai906qvcttvvg8pi1rr foreign key (lecturer_id) references users (id)
+Hibernate: alter table enrollments add constraint FKho8mcicp4196ebpltdn9wl6co foreign key (course_id) references courses (id)
+Hibernate: alter table enrollments add constraint FK8kf1u1857xgo56xbfmnif2c51 foreign key (student_id) references students (id)
+2025-10-29T18:40:24.006+02:00  INFO 1412 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-29T18:40:24.614+02:00 DEBUG 1412 --- [           main] c.s.security.JwtAuthenticationFilter     : Filter 'jwtAuthenticationFilter' configured for use
+2025-10-29T18:40:25.254+02:00  WARN 1412 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-29T18:40:25.660+02:00 DEBUG 1412 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 32 mappings in 'requestMappingHandlerMapping'
+2025-10-29T18:40:25.810+02:00 DEBUG 1412 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-10-29T18:40:25.886+02:00  INFO 1412 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@258291de, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4f63909f, org.springframework.security.web.context.SecurityContextHolderFilter@7925e772, org.springframework.security.web.header.HeaderWriterFilter@6fb51e17, org.springframework.web.filter.CorsFilter@3ae91bcc, org.springframework.security.web.authentication.logout.LogoutFilter@6c2a33af, com.studentmanagement.security.JwtAuthenticationFilter@136cad3e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@240e61, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76efa2b7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@679886ad, org.springframework.security.web.session.SessionManagementFilter@3c2e73ce, org.springframework.security.web.access.ExceptionTranslationFilter@4fe9fb65, org.springframework.security.web.access.intercept.AuthorizationFilter@93c66ef]
+2025-10-29T18:40:26.032+02:00 DEBUG 1412 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-10-29T18:40:26.078+02:00 DEBUG 1412 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-10-29T18:40:26.241+02:00  WARN 1412 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-10-29T18:40:26.242+02:00  INFO 1412 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-29T18:40:26.244+02:00  INFO 1412 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-29T18:40:26.257+02:00  INFO 1412 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-29T18:40:26.273+02:00  INFO 1412 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-29T18:40:26.301+02:00 ERROR 1412 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
